@@ -54,7 +54,7 @@ export default class Swipeout extends React.Component <SwipeoutPropType, any> {
   componentDidMount() {
     this.btnsLeftWidth = this.left ? this.left.offsetWidth : 0;
     this.btnsRightWidth = this.right ? this.right.offsetWidth : 0;
-    document.body.addEventListener('touchstart', this.onCloseSwipe, true);
+    document.body.addEventListener('touchstart', this.onCloseSwipe, {passive: false});
   }
 
   componentWillUnmount() {
@@ -207,27 +207,16 @@ export default class Swipeout extends React.Component <SwipeoutPropType, any> {
         className={`${prefixCls}-actions ${prefixCls}-actions-${ref}`}
         ref={(el) => this[ref] = el}
       >
-        {
-          buttons.map((btn, i) => (
-            <div key={i}
-              className={`${prefixCls}-btn ${btn.hasOwnProperty('className') ? btn.className : ''}`}
-              style={btn.style}
-              role="button"
-              onClick={(e) => this.onBtnClick(e, btn)}
-            >
-              <div className={`${prefixCls}-btn-text`}>{btn.text || 'Click'}</div>
-            </div>
-          ))
-        }
+        {buttons}
       </div>
     ) : null;
   }
 
-  onTouchMove = (e) => {
-    if (this.swiping) {
-      e.preventDefault();
-    }
-  }
+  // onTouchMove = (e) => {
+  //   if (this.swiping) {
+  //     e.preventDefault();
+  //   }
+  // }
 
   render() {
     const { prefixCls, left, right, disabled, children, ...restProps } = this.props;
